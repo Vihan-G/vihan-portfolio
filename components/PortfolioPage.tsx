@@ -258,6 +258,8 @@ gl_FragColor=vec4(vC,a*df);
       }, .12)
       .to(nchs, { x: 0, y: 0, rotation: 0, opacity: 1, scale: 1, duration: .2, stagger: { each: .008, from: 'random' }, ease: 'power3.out' }, .50)
       .to('#role', { opacity: 1, duration: .04 }, .68)
+      /* FIX 1 — fade name out 60%→66% of scroll, scale to 0.85 */
+      .to(nchs, { opacity: 0, scale: 0.85, duration: .06, ease: 'power2.in' }, .55)
       .to('#nav', {
         opacity: 1, duration: .02,
         onComplete() { document.getElementById('nav')?.classList.add('on') }
@@ -292,24 +294,21 @@ gl_FragColor=vec4(vC,a*df);
     pjIds.forEach((sel, i) => {
       const el = document.querySelector(sel)!
       const nm = el.querySelectorAll('.pjnm span')
-      const desc = el.querySelector('.pjdesc')
       const cta = el.querySelector('.pjcta')
 
       if (i > 0) {
         wTl.fromTo(el, { opacity: 0, yPercent: 6 }, { opacity: 1, yPercent: 0, duration: .15, ease: 'power2.inOut' }, i * .8 + .05)
         wTl.fromTo(nm, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .1, stagger: .012, ease: 'power3.out' }, i * .8 + .12)
-        wTl.fromTo(desc, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .06 }, i * .8 + .18)
-        wTl.fromTo(cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .05 }, i * .8 + .22)
+        wTl.fromTo(cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .05 }, i * .8 + .18)
       } else {
         wTl.fromTo(nm, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .12, stagger: .012, ease: 'power3.out' }, .02)
-        wTl.fromTo(desc, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .08 }, .08)
-        wTl.fromTo(cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .06 }, .12)
+        wTl.fromTo(cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .06 }, .08)
       }
       if (i < pjIds.length - 1) wTl.to(el, { opacity: 0, yPercent: -6, duration: .15, ease: 'power2.inOut' }, (i + 1) * .8 - .02)
     })
 
     ScrollTrigger.create({
-      trigger: '#work', start: 'top top', end: '+=400%', pin: true, scrub: .5, animation: wTl,
+      trigger: '#work', start: 'top top', end: '+=280%', pin: true, scrub: .3, animation: wTl,
       onUpdate: (s) => { const idx = Math.min(3, Math.floor(s.progress * 4)); wds.forEach((d, i) => d.classList.toggle('on', i === idx)) }
     })
 
@@ -328,7 +327,6 @@ gl_FragColor=vec4(vC,a*df);
     /* ═══ ABOUT ═══ */
     gsap.to('#about .slbl', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '#about', start: 'top 85%' } })
     gsap.to('.wi', { y: 0, duration: 1, stagger: .02, ease: 'power4.out', scrollTrigger: { trigger: '.abh', start: 'top 80%' } })
-    gsap.to('.abp', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '.abp', start: 'top 85%' } })
     gsap.to('.skills', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '.skills', start: 'top 88%' } })
 
     /* CHANGE 2 — honors + leadership */
@@ -338,10 +336,7 @@ gl_FragColor=vec4(vC,a*df);
     /* ═══ CONTACT ═══ */
     gsap.to('#contact .slbl', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '#contact', start: 'top 85%' } })
     gsap.to('.ctli', { y: 0, duration: 1.2, stagger: .1, ease: 'power4.out', scrollTrigger: { trigger: '#ctH', start: 'top 80%' } })
-    gsap.to('#ctS', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '#ctS', start: 'top 88%' } })
     gsap.to('#ctB', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '#ctB', start: 'top 90%' } })
-
-    /* CHANGE 3 — ctLinks */
     gsap.to('#ctLinks', { opacity: 1, y: 0, duration: .8, scrollTrigger: { trigger: '#ctLinks', start: 'top 90%' } })
 
     ScrollTrigger.create({
@@ -468,14 +463,9 @@ gl_FragColor=vec4(vC,a*df);
               style={i === 0 ? { opacity: 1 } : {}}
             >
               <span className="pjnum">{p.num}</span>
-              <span className="pjlbl">{p.label}</span>
               <h3 className="pjnm">
                 {p.name.split('').map((c, j) => <span key={j}>{c}</span>)}
               </h3>
-              <div className="pjtags">
-                {p.tags.map(t => <span key={t} className="pjtag">{t}</span>)}
-              </div>
-              <p className="pjdesc">{p.desc}</p>
               <a href={p.href} target="_blank" rel="noopener noreferrer" className="pjcta">
                 View on GitHub <span className="pjcta-l" />
               </a>
@@ -500,7 +490,6 @@ gl_FragColor=vec4(vC,a*df);
               dangerouslySetInnerHTML={{ __html: personal.bioHeadline }}
             />
             <div>
-              <p className="abp">{personal.bio}</p>
               <div className="skills">
                 {skills.map(s => (
                   <span key={s} className="sk"><span>{s}</span></span>
@@ -538,8 +527,6 @@ gl_FragColor=vec4(vC,a*df);
             <div className="ctl"><span className="ctli">something</span></div>
             <div className="ctl"><span className="ctli">together.</span></div>
           </h2>
-          <p className="ctsub" id="ctS">{personal.subline}</p>
-
           <div className="ctlinks" id="ctLinks">
             <a href={personal.linkedinHref} target="_blank" rel="noopener noreferrer" className="ctlink">
               LinkedIn ↗
