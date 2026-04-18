@@ -1,50 +1,25 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
-import "./globals.css";
-import CursorEffect from "@/components/CursorEffect";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
+import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
-  title: "Vihan Goenka — Builder & Founder",
-  description:
-    "Math-CS @ UCSD. Building products, shipping code, winning competitions.",
+  title: 'Vihan Goenka',
+  description: 'Math-CS student at UC San Diego. Builder. Sometimes things I make work.',
   openGraph: {
-    title: "Vihan Goenka — Builder & Founder",
-    description:
-      "Math-CS @ UCSD. Building products, shipping code, winning competitions.",
-    type: "website",
+    title: 'Vihan Goenka',
+    description: 'Math-CS student at UC San Diego. Builder.',
+    url: 'https://vihangoenka.com',
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vihan Goenka — Builder & Founder",
-    description: "Math-CS @ UCSD. Building products, shipping code, winning competitions.",
-  },
-};
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
-      <body>
-        <CursorEffect />
-        {children}
-      </body>
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+      </head>
+      <body>{children}</body>
     </html>
-  );
+  )
 }
