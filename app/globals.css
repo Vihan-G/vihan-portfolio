@@ -59,7 +59,7 @@ main{position:relative;z-index:2}
 
 .breather{height:28vh}
 
-#manifesto{padding:8vh 6vw}
+#manifesto{padding:8vh 6vw;overflow-x:clip}
 .mr{padding:3vh 0;overflow:visible}
 .mt{font-weight:600;letter-spacing:-.02em;line-height:1;display:inline-block;
     white-space:nowrap;opacity:0}
@@ -86,22 +86,29 @@ main{position:relative;z-index:2}
 .pjnum{font-size:10vw;font-weight:700;color:rgba(224,220,212,.018);
        position:absolute;top:8vh;right:6vw;line-height:1}
 .pjnm{font-size:clamp(3rem,10vw,10rem);font-weight:700;letter-spacing:-.05em;line-height:.85}
-.pjnm span{display:inline-block;opacity:0;transform:translateY(50px)}
+.pjnm span{display:inline-block;opacity:0;transform:translateY(80px)}
 .pjcta{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.2rem;
        font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
        opacity:0;transform:translateY(8px);cursor:none}
 .pjcta-l{width:25px;height:1px;background:#e0dcd4;transition:width .3s}
 .pjcta:hover .pjcta-l{width:45px}
-.wdots{position:absolute;bottom:8vh;right:6vw;display:flex;gap:6px;z-index:5}
-.wd{width:6px;height:6px;border-radius:50%;border:1px solid rgba(224,220,212,.12);transition:.3s;cursor:none}
-.wd.on{background:#c4a882;border-color:#c4a882}
+.wdots{position:absolute;bottom:8vh;right:6vw;display:flex;gap:8px;z-index:5;align-items:center}
+.wd{width:5px;height:5px;border-radius:50%;border:1px solid rgba(224,220,212,.14);transition:.4s cubic-bezier(.16,1,.3,1);cursor:none}
+.wd.on{background:#c4a882;border-color:#c4a882;transform:scale(1.4)}
+.pj-counter{position:absolute;top:8vh;left:6vw;z-index:5;
+            font-size:.48rem;letter-spacing:.35em;color:rgba(196,168,130,.4);
+            font-family:'Space Grotesk',sans-serif}
+/* Edge fades on work section */
+#work::before,#work::after{content:'';position:absolute;left:0;right:0;height:15vh;z-index:4;pointer-events:none}
+#work::before{top:0;background:linear-gradient(to bottom,#08080a,transparent)}
+#work::after{bottom:0;background:linear-gradient(to top,#08080a,transparent)}
 
 #about{padding:16vh 6vw}
 .slbl{font-size:.45rem;letter-spacing:.5em;text-transform:uppercase;color:#c4a882;
       margin-bottom:3rem;display:flex;align-items:center;gap:1rem;opacity:0;transform:translateY(10px)}
 .slbl::before{content:'';width:20px;height:1px;background:#c4a882}
 .abg{display:grid;grid-template-columns:1.3fr 1fr;gap:8vw;align-items:start}
-.abh{font-size:clamp(1.5rem,3.2vw,3.2rem);font-weight:600;line-height:1.35;letter-spacing:-.015em;text-transform:uppercase}
+.abh{font-size:clamp(2rem,4.5vw,5rem);font-weight:700;line-height:1.2;letter-spacing:-.03em;text-transform:uppercase}
 .abh em{font-style:italic;color:#c4a882}
 .abh .w{display:inline-block;overflow:hidden;vertical-align:top}
 .abh .wi{display:inline-block;transform:translateY(110%)}
@@ -140,13 +147,13 @@ main{position:relative;z-index:2}
 .ctli{display:block;font-size:clamp(2.5rem,10vw,11rem);font-weight:700;
       letter-spacing:-.05em;line-height:.88;transform:translateY(120%)}
 .ctch{display:inline-block;transition:transform .2s cubic-bezier(.16,1,.3,1),color .3s}
-.ctlinks{display:flex;gap:2rem;margin-top:3rem;opacity:0;transform:translateY(10px);
+.ctlinks{display:flex;gap:5rem;margin-top:4rem;opacity:0;transform:translateY(10px);
          align-items:center;justify-content:center;flex-wrap:wrap}
-.ctlink{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
-        color:rgba(224,220,212,.28);position:relative;cursor:none;
-        transition:color .3s cubic-bezier(.16,1,.3,1)}
-.ctlink::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
-               background:#c4a882;transition:width .4s cubic-bezier(.16,1,.3,1)}
+.ctlink{font-size:1.15rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+        color:rgba(224,220,212,.38);position:relative;cursor:none;
+        transition:color .35s cubic-bezier(.16,1,.3,1)}
+.ctlink::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+               background:#c4a882;transition:width .45s cubic-bezier(.16,1,.3,1)}
 .ctlink:hover{color:#c4a882}
 .ctlink:hover::after{width:100%}
 .ctbtn{display:inline-flex;align-items:center;gap:.8rem;padding:.9rem 2.2rem;
@@ -164,8 +171,8 @@ main{position:relative;z-index:2}
 .ctbtn:hover svg{transform:translateX(4px)}
 
 footer{padding:3vh 6vw;display:flex;justify-content:space-between;
-       font-size:.5rem;color:rgba(224,220,212,.08);letter-spacing:.1em;
-       border-top:1px solid rgba(224,220,212,.025)}
+       font-size:.5rem;color:rgba(224,220,212,.16);letter-spacing:.1em;
+       border-top:1px solid rgba(224,220,212,.04)}
 footer a{transition:color .3s}
 footer a:hover{color:rgba(224,220,212,.35)}
 

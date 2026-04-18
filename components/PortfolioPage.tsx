@@ -210,11 +210,11 @@ gl_FragColor=vec4(vC,a*df);
 
     const nchs = document.querySelectorAll('.nch')
     nchs.forEach(c => gsap.set(c, {
-      x: (Math.random() - .5) * innerWidth * .6,
-      y: (Math.random() - .5) * innerHeight * .4,
-      rotation: (Math.random() - .5) * 100,
+      x: (Math.random() - .5) * innerWidth * 2.2,
+      y: (Math.random() - .5) * innerHeight * 1.4,
+      rotation: (Math.random() - .5) * 180,
       opacity: 0,
-      scale: .3 + Math.random() * .4
+      scale: .08
     }))
 
     const abH = document.getElementById('abH')
@@ -256,23 +256,22 @@ gl_FragColor=vec4(vC,a*df);
         },
         onComplete() { portal.style.display = 'none' }
       }, .12)
-      .to(nchs, { x: 0, y: 0, rotation: 0, opacity: 1, scale: 1, duration: .2, stagger: { each: .008, from: 'random' }, ease: 'power3.out' }, .50)
-      .to('#role', { opacity: 1, duration: .04 }, .68)
-      /* FIX 1 — fade name out 60%→66% of scroll, scale to 0.85 */
-      .to(nchs, { opacity: 0, scale: 0.85, duration: .06, ease: 'power2.in' }, .55)
+      // Assembly — expo.out: characters snap into position decisively
+      .to(nchs, {
+        x: 0, y: 0, rotation: 0, opacity: 1, scale: 1,
+        duration: .30, stagger: { each: .012, from: 'random' },
+        ease: 'expo.out'
+      }, .44)
+      .to('#role', { opacity: 1, duration: .04 }, .76)
       .to('#nav', {
         opacity: 1, duration: .02,
         onComplete() { document.getElementById('nav')?.classList.add('on') }
-      }, .72)
-      .to(nchs, {
-        duration: .14, ease: 'power2.in',
-        x: (i: number) => { const a = (i / nchs.length) * Math.PI * 2; return Math.cos(a) * 400 },
-        y: (i: number) => { const a = (i / nchs.length) * Math.PI * 2; return Math.sin(a) * 400 },
-        scale: 4, opacity: 0, rotation: () => (Math.random() - .5) * 50
       }, .78)
-      .to('#role', { opacity: 0, scale: .8, duration: .06 }, .78)
+      // Exit — clean unified dissolve upward, no explosion
+      .to(nchs, { y: -80, opacity: 0, scale: .88, duration: .22, ease: 'power3.in' }, .82)
+      .to('#role', { opacity: 0, duration: .10 }, .82)
 
-    ScrollTrigger.create({ trigger: '#opening', start: 'top top', end: '+=350%', pin: true, scrub: .5, animation: oTl })
+    ScrollTrigger.create({ trigger: '#opening', start: 'top top', end: '+=350%', pin: true, scrub: .4, animation: oTl })
 
     /* ═══ MANIFESTO ═══ */
     document.querySelectorAll('.mr').forEach(row => {
@@ -291,25 +290,53 @@ gl_FragColor=vec4(vC,a*df);
     const wds = document.querySelectorAll('.wd')
     const wTl = gsap.timeline()
 
+    const counterEl = document.getElementById('pjCount')
+    const labels = ['01', '02', '03', '04']
+
     pjIds.forEach((sel, i) => {
       const el = document.querySelector(sel)!
       const nm = el.querySelectorAll('.pjnm span')
       const cta = el.querySelector('.pjcta')
 
       if (i > 0) {
-        wTl.fromTo(el, { opacity: 0, yPercent: 6 }, { opacity: 1, yPercent: 0, duration: .15, ease: 'power2.inOut' }, i * .8 + .05)
-        wTl.fromTo(nm, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .1, stagger: .012, ease: 'power3.out' }, i * .8 + .12)
-        wTl.fromTo(cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .05 }, i * .8 + .18)
+        // Enter: rise from below with a slight zoom-in pop
+        wTl.fromTo(el,
+          { opacity: 0, y: 70, scale: 1.04 },
+          { opacity: 1, y: 0, scale: 1, duration: .26, ease: 'expo.out' },
+          i * .8 + .02)
+        wTl.fromTo(nm,
+          { y: 80, opacity: 0 },
+          { y: 0, opacity: 1, duration: .22, stagger: .016, ease: 'expo.out' },
+          i * .8 + .08)
+        wTl.fromTo(cta,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: .12 },
+          i * .8 + .22)
       } else {
-        wTl.fromTo(nm, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .12, stagger: .012, ease: 'power3.out' }, .02)
-        wTl.fromTo(cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .06 }, .08)
+        wTl.fromTo(nm,
+          { y: 80, opacity: 0 },
+          { y: 0, opacity: 1, duration: .24, stagger: .016, ease: 'expo.out' },
+          .02)
+        wTl.fromTo(cta,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: .12 },
+          .18)
       }
-      if (i < pjIds.length - 1) wTl.to(el, { opacity: 0, yPercent: -6, duration: .15, ease: 'power2.inOut' }, (i + 1) * .8 - .02)
+      // Exit: scale down + drift up + fade — previous project recedes
+      if (i < pjIds.length - 1) {
+        wTl.to(el,
+          { opacity: 0, y: -55, scale: .96, duration: .24, ease: 'power3.in' },
+          (i + 1) * .8 - .06)
+      }
     })
 
     ScrollTrigger.create({
       trigger: '#work', start: 'top top', end: '+=280%', pin: true, scrub: .3, animation: wTl,
-      onUpdate: (s) => { const idx = Math.min(3, Math.floor(s.progress * 4)); wds.forEach((d, i) => d.classList.toggle('on', i === idx)) }
+      onUpdate: (s) => {
+        const idx = Math.min(3, Math.floor(s.progress * 4))
+        wds.forEach((d, i) => d.classList.toggle('on', i === idx))
+        if (counterEl) counterEl.textContent = `${labels[idx]} — 04`
+      }
     })
 
     /* project num parallax on mouse */
@@ -455,6 +482,7 @@ gl_FragColor=vec4(vC,a*df);
 
         {/* Work */}
         <section id="work">
+          <div className="pj-counter" id="pjCount">01 — 04</div>
           {projects.map((p, i) => (
             <div
               key={p.id}
