@@ -219,7 +219,34 @@ gl_FragColor=vec4(vC,a*df);
 
     const abH = document.getElementById('abH')
     if (abH) {
-      abH.innerHTML = abH.innerHTML.replace(/(\S+)/g, '<span class="w"><span class="wi">$1</span></span>')
+      const wrapTextNode = (node: Text) => {
+        const frag = document.createDocumentFragment()
+        node.textContent?.split(/(\s+)/).forEach(part => {
+          if (!part) return
+          if (/^\s+$/.test(part)) {
+            frag.appendChild(document.createTextNode(part))
+            return
+          }
+          const outer = document.createElement('span')
+          outer.className = 'w'
+          const inner = document.createElement('span')
+          inner.className = 'wi'
+          inner.textContent = part
+          outer.appendChild(inner)
+          frag.appendChild(outer)
+        })
+        node.replaceWith(frag)
+      }
+
+      const wrapWords = (node: ChildNode) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          wrapTextNode(node as Text)
+          return
+        }
+        Array.from(node.childNodes).forEach(wrapWords)
+      }
+
+      Array.from(abH.childNodes).forEach(wrapWords)
     }
 
     document.querySelectorAll('.ctli').forEach(l => {
@@ -491,11 +518,12 @@ gl_FragColor=vec4(vC,a*df);
               style={i === 0 ? { opacity: 1 } : {}}
             >
               <span className="pjnum">{p.num}</span>
+              <div className="hn-label">{p.label}</div>
               <h3 className="pjnm">
                 {p.name.split('').map((c, j) => <span key={j}>{c}</span>)}
               </h3>
               <a href={p.href} target="_blank" rel="noopener noreferrer" className="pjcta">
-                View on GitHub <span className="pjcta-l" />
+                GitHub <span className="pjcta-l" />
               </a>
             </div>
           ))}
@@ -556,16 +584,16 @@ gl_FragColor=vec4(vC,a*df);
             <div className="ctl"><span className="ctli">together.</span></div>
           </h2>
           <div className="ctlinks" id="ctLinks">
-            <a href={personal.linkedinHref} target="_blank" rel="noopener noreferrer" className="ctlink">
+            <a href={`https://${personal.contact.linkedin}`} target="_blank" rel="noopener noreferrer" className="ctlink">
               LinkedIn ↗
             </a>
-            <a href={personal.githubHref} target="_blank" rel="noopener noreferrer" className="ctlink">
+            <a href={`https://${personal.contact.github}`} target="_blank" rel="noopener noreferrer" className="ctlink">
               GitHub ↗
             </a>
           </div>
 
-          <a href={`mailto:${personal.email}`} className="ctbtn" id="ctB">
-            <span>{personal.email}</span>
+          <a href={`mailto:${personal.contact.email}`} className="ctbtn" id="ctB">
+            <span>{personal.contact.email}</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
@@ -576,11 +604,11 @@ gl_FragColor=vec4(vC,a*df);
         <footer>
           <span>© 2025 Vihan Goenka</span>
           <span>
-            <a href={personal.linkedinHref} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href={`https://${personal.contact.linkedin}`} target="_blank" rel="noopener noreferrer">LinkedIn</a>
             {' · '}
-            <a href={personal.githubHref} target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href={`https://${personal.contact.github}`} target="_blank" rel="noopener noreferrer">GitHub</a>
             {' · '}
-            <a href={`mailto:${personal.email}`}>{personal.email}</a>
+            <a href={`mailto:${personal.contact.email}`}>{personal.contact.email}</a>
           </span>
         </footer>
       </main>
