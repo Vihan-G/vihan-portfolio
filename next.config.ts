@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         destination: "https://example.com",
         permanent: false,
       },
+      {
+        source: "/linkedin",
+        destination: "https://www.linkedin.com/in/vihan-goenka/",
+        permanent: false,
+      },
     ];
   },
 };
