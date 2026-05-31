@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         destination: "https://www.linkedin.com/in/vihan-goenka/",
         permanent: false,
       },
+      {
+        source: "/hck1video",
+        destination: "https://drive.google.com/file/d/1zu5i0mbTahGL1GeSt9GZFKtx969wpNjZ/view?usp=sharing",
+        permanent: false,
+      },
     ];
   },
 };
