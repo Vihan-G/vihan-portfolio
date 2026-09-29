@@ -314,6 +314,7 @@ gl_FragColor=vec4(vC,a*df);
 
     /* ═══ WORK ═══ */
     const pjIds = ['#pj1', '#pj2', '#pj3', '#pj4']
+    const projectEls = document.querySelectorAll('.pj')
     const wds = document.querySelectorAll('.wd')
     const wTl = gsap.timeline()
 
@@ -361,6 +362,7 @@ gl_FragColor=vec4(vC,a*df);
       trigger: '#work', start: 'top top', end: '+=280%', pin: true, scrub: .3, animation: wTl,
       onUpdate: (s) => {
         const idx = Math.min(3, Math.floor(s.progress * 4))
+        projectEls.forEach((project, i) => project.classList.toggle('on', i === idx))
         wds.forEach((d, i) => d.classList.toggle('on', i === idx))
         if (counterEl) counterEl.textContent = `${labels[idx]} — 04`
       }
@@ -510,11 +512,17 @@ gl_FragColor=vec4(vC,a*df);
         {/* Work */}
         <section id="work">
           <div className="pj-counter" id="pjCount">01 — 04</div>
-          {projects.map((p, i) => (
-            <div
+          {projects.map((p, i) => {
+            const external = p.href.startsWith('http')
+            return (
+            <a
               key={p.id}
-              className={`pj ${p.bg}`}
+              className={`pj ${p.bg}${i === 0 ? ' on' : ''}`}
               id={p.id}
+              href={p.href}
+              target={external ? '_blank' : undefined}
+              rel={external ? 'noopener noreferrer' : undefined}
+              aria-label={`${p.name}: ${p.description}`}
               style={i === 0 ? { opacity: 1 } : {}}
             >
               <span className="pjnum">{p.num}</span>
@@ -522,17 +530,12 @@ gl_FragColor=vec4(vC,a*df);
               <h3 className="pjnm">
                 {p.name.split('').map((c, j) => <span key={j}>{c}</span>)}
               </h3>
-              {p.href ? (
-                <a href={p.href} target="_blank" rel="noopener noreferrer" className="pjcta">
-                  {p.cta} <span className="pjcta-l" />
-                </a>
-              ) : (
-                <span className="pjcta">
-                  {p.cta} <span className="pjcta-l" />
-                </span>
-              )}
-            </div>
-          ))}
+              <p className="pjdesc">{p.description}</p>
+              <span className="pjcta">
+                {p.cta} <span className="pjcta-l" />
+              </span>
+            </a>
+          )})}
           <div className="wdots">
             {projects.map((_, i) => (
               <div key={i} className={`wd${i === 0 ? ' on' : ''}`} />
