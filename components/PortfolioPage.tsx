@@ -522,9 +522,15 @@ gl_FragColor=vec4(vC,a*df);
               <h3 className="pjnm">
                 {p.name.split('').map((c, j) => <span key={j}>{c}</span>)}
               </h3>
-              <a href={p.href} target="_blank" rel="noopener noreferrer" className="pjcta">
-                GitHub <span className="pjcta-l" />
-              </a>
+              {p.href ? (
+                <a href={p.href} target="_blank" rel="noopener noreferrer" className="pjcta">
+                  {p.cta} <span className="pjcta-l" />
+                </a>
+              ) : (
+                <span className="pjcta">
+                  {p.cta} <span className="pjcta-l" />
+                </span>
+              )}
             </div>
           ))}
           <div className="wdots">
@@ -581,7 +587,7 @@ gl_FragColor=vec4(vC,a*df);
           <h2 id="ctH">
             <div className="ctl"><span className="ctli">Let&apos;s build</span></div>
             <div className="ctl"><span className="ctli">something</span></div>
-            <div className="ctl"><span className="ctli">together.</span></div>
+            <div className="ctl"><span className="ctli">that has to work.</span></div>
           </h2>
           <div className="ctlinks" id="ctLinks">
             <a href={`https://${personal.contact.linkedin}`} target="_blank" rel="noopener noreferrer" className="ctlink">
@@ -602,7 +608,7 @@ gl_FragColor=vec4(vC,a*df);
         </section>
 
         <footer>
-          <span>© 2025 Vihan Goenka</span>
+          <span>© 2026 Vihan Goenka</span>
           <span>
             <a href={`https://${personal.contact.linkedin}`} target="_blank" rel="noopener noreferrer">LinkedIn</a>
             {' · '}

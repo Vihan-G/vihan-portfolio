@@ -3,16 +3,16 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Vihan Goenka',
-  description: 'Math-CS at UC San Diego. Building products, shipping code, solving hard problems.',
+  description: 'UC San Diego Math-CS student building dependable products for healthcare, workforce operations, education, and AI.',
   openGraph: {
     title: 'Vihan Goenka',
-    description: 'Math-CS at UC San Diego. Builder.',
+    description: 'Product-minded engineer building systems for real operational workflows.',
     url: 'https://vihangoenka.com',
   },
   twitter: {
     card: 'summary',
     title: 'Vihan Goenka',
-    description: 'Math-CS at UC San Diego. Builder.',
+    description: 'Product-minded engineer building systems for real operational workflows.',
   },
 }
 
