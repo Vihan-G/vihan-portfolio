@@ -5,11 +5,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/resume",
-        destination: "https://drive.google.com/file/d/1yBc1fI8SnzDVejzGZ6i8NA16Z1vuvlB7/view?usp=sharing",
-        permanent: false,
-      },
-      {
         source: "/random",
         destination: "https://example.com",
         permanent: false,
@@ -23,6 +18,36 @@ const nextConfig: NextConfig = {
         source: "/hck1video",
         destination: "https://drive.google.com/file/d/1zu5i0mbTahGL1GeSt9GZFKtx969wpNjZ/view?usp=sharing",
         permanent: false,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/resume",
+        destination: "/resume.pdf",
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/resume",
+        headers: [
+          {
+            key: "Content-Disposition",
+            value: 'inline; filename="Vihan_Goenka_Technical_Resume.pdf"',
+          },
+        ],
+      },
+      {
+        source: "/resume.pdf",
+        headers: [
+          {
+            key: "Content-Disposition",
+            value: 'inline; filename="Vihan_Goenka_Technical_Resume.pdf"',
+          },
+        ],
       },
     ];
   },
