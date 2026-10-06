@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
         source: "/resume",
         destination: "/resume.pdf",
       },
+      {
+        source: "/tibqr",
+        destination: "/tibqr.png",
+      },
     ];
   },
   async headers() {
@@ -46,6 +50,24 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Disposition",
             value: 'inline; filename="Vihan_Goenka_Technical_Resume.pdf"',
+          },
+        ],
+      },
+      {
+        source: "/tibqr",
+        headers: [
+          {
+            key: "Content-Disposition",
+            value: 'inline; filename="tibqr.png"',
+          },
+        ],
+      },
+      {
+        source: "/tibqr.png",
+        headers: [
+          {
+            key: "Content-Disposition",
+            value: 'inline; filename="tibqr.png"',
           },
         ],
       },
